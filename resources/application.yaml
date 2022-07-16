@@ -6,8 +6,8 @@ application:
     controler: [""]
     loggerDirectory : "./log/www"
 mysql:
-  #connection: "tcp(127.0.0.1:3306)/domate?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false"
-  connection: "tcp(127.0.0.1:3306)/domate"
+  #connection: "tcp(127.0.0.1:3306)/domate?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&parseTime=true"
+  connection: "tcp(127.0.0.1:3306)/domate?charset=utf8&parseTime=true"
   userName: "root"
   password: "123456"
   maxConnection: 100

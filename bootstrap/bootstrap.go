@@ -73,8 +73,7 @@ func buildMySqlClient(context *Context) (*Context, error) {
 	if err != nil {
 		context.Logger.
 			WithField("build", "mysqlClient").
-			WithField(logger.Status, model.StatusType_EXCEPTION).
-			Infoln("build mysql client failure")
+			WithField(logger.Status, model.StatusType_EXCEPTION).Errorln("build mysql client failure", err)
 		fmt.Println("build mysql client failure =>", err)
 	}
 	context.MysqlClient = client
@@ -89,6 +88,9 @@ func Dispose(ctx *Context) {
 	fmt.Println("dispose all resources")
 	if ctx != nil {
 		ctx.Logger.WithField("dispose", "resources").Infoln("dispose all resources.")
+		ctx.Logger.WithField("webContainer", "close").Infoln("close dotweb container.")
+		ctx.WebContainer.Close()
+		ctx.Logger.WithField("mysqlClient", "close").Infoln("close mysql connections.")
 		ctx.MysqlClient.Close()
 	}
 
