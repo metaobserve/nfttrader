@@ -1,0 +1,32 @@
+application:
+  name: "domate"
+  container:
+    port: 8080
+    content: ["./content/css","./content/js","./content/image"]
+    controler: [""]
+    loggerDirectory : "./log/www"
+mysql:
+  #connection: "tcp(127.0.0.1:3306)/domate?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false"
+  connection: "tcp(127.0.0.1:3306)/domate"
+  userName: "root"
+  password: "123456"
+  maxConnection: 100
+  coreConnection: 10
+  connectonIdleSecond: 300
+  connectionLifeSecond: 600
+ipfs:
+  url: ""
+  token: ""
+  secret: ""
+  connectTimeout: ""
+  readTimeout: ""
+logger:
+  path: "./log/info.log"
+  # split every 12 hours.
+  fileSplitInHour: 12
+  # save log file in 30 days.
+  fileRemoveAfterHour: 720
+polygon:
+  address: "https://polygon.technology"
+  token: ""
+  secret: ""

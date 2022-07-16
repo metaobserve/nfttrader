@@ -1,0 +1,5 @@
+package utility
+
+var (
+	EmptyString = ""
+)
