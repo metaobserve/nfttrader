@@ -58,7 +58,7 @@ func buildLogger(context *Context) (*Context, error) {
 	context.Logger.
 		WithField("build", "logger").
 		WithField(logger.Status, model.StatusType_SUCCESS).
-		Infoln("build mysql client success")
+		Infoln("build logger success")
 	return context, nil
 }
 

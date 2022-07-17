@@ -17,6 +17,7 @@ func BuildEnvResources() error {
 		fmt.Println("get execute path failure => ", err)
 		return err
 	}
+
 	viper.AddConfigPath(path)
 	viper.AddConfigPath(path + "/resources")
 	viper.AddConfigPath(".")
@@ -28,6 +29,7 @@ func BuildEnvResources() error {
 
 	err = viper.ReadInConfig()
 	if err != nil {
+		fmt.Println("read configuration err =>", err)
 		return ReadConfigurationFailure
 	}
 	return nil
