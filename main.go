@@ -3,15 +3,12 @@ package main
 import (
 	"fmt"
 	"github.com/dometa/bootstrap"
-	"github.com/dometa/dao"
-	"github.com/dometa/model/po"
 	_ "github.com/go-sql-driver/mysql"
-	"time"
 )
 
 func main() {
 
-	context, err := bootstrap.Start()
+	_, err := bootstrap.Start()
 	if err != nil {
 		fmt.Println("dometa start failure =>", nil)
 	} else {
@@ -81,25 +78,25 @@ func main() {
 	//fmt.Println("err =>", err)
 
 	//whiteList
-	var whiteList po.WhiteListPO
-	whiteList.AirdropTokenId = "token"
-	whiteList.WalletAddress = "address"
-	whiteList.Name = "name"
-	whiteList.Description = "description"
-	whiteList.Status = 1
-	whiteList.StartTime.Valid = true
-	whiteList.StartTime.Time = time.Now()
-	whiteList.EndTime.Valid = true
-	whiteList.EndTime.Time = time.Now()
-
-	whiteListDao := dao.NewWhiteListDao(context)
-	ret, err := whiteListDao.Insert(whiteList)
-	fmt.Println("ret =>", ret)
-	fmt.Println("err =>", err)
-
-	ret, err = whiteListDao.IsUserInWhiteList("token", "address")
-	fmt.Println("ret =>", ret)
-	fmt.Println("err =>", err)
+	//var whiteList po.WhiteListPO
+	//whiteList.AirdropTokenId = "token"
+	//whiteList.WalletAddress = "address"
+	//whiteList.Name = "name"
+	//whiteList.Description = "description"
+	//whiteList.Status = 1
+	//whiteList.StartTime.Valid = true
+	//whiteList.StartTime.Time = time.Now()
+	//whiteList.EndTime.Valid = true
+	//whiteList.EndTime.Time = time.Now()
+	//
+	//whiteListDao := dao.NewWhiteListDao(context)
+	//ret, err := whiteListDao.Insert(whiteList)
+	//fmt.Println("ret =>", ret)
+	//fmt.Println("err =>", err)
+	//
+	//ret, err = whiteListDao.IsUserInWhiteList("token", "address")
+	//fmt.Println("ret =>", ret)
+	//fmt.Println("err =>", err)
 
 	// wallet
 	//walletDao := dao.NewWalletDao(context)
@@ -125,29 +122,15 @@ func main() {
 	//fmt.Println(wallet2)
 	//fmt.Println(err)
 
-	//var accountPOs []po.AccountPO
-	//err = context.MysqlClient.Select(&accountPOs, "select * from account")
-	//fmt.Println("dotweb error =>", err)
-	////fmt.Printf(accountPOs[0])
-	//for i := 0; i < len(accountPOs); i++ {
-	//	fmt.Println(accountPOs[i].Id)
-	//}
-	//fmt.Println("hello world")
-	//app := dotweb.New()
-	//
-	//app.SetLogPath("/home/logs/wwwroot/")
-	//app.HttpServer.GET("/coco.png", func(ctx dotweb.Context) error {
+	//context.WebContainer.HttpServer.GET("/coco.png", func(ctx dotweb.Context) error {
 	//	return ctx.File("coco.png")
 	//	//return ctx.Attachment("coco.png", "coco.png")
 	//	//return ctx.WriteString("welcome to my first web")
 	//})
 	//
-	//viper.SetDefault("test", "test")
-	//
-	//fmt.Println(viper.GetString("test"))
-	//
-	//fmt.Println("web begin")
-	////err := app.StartServer(8033)
+	//err = context.WebContainer.StartServer(8033)
+	//fmt.Println("err =>", err)
+
 	////fmt.Println("dotweb error =>", err)
 	//
 	//var files []string

@@ -36,6 +36,7 @@ func BuildMySqlClient() (*sqlx.DB, error) {
 
 	db, err := sqlx.Open(databaseType, fullConnection)
 	if err != nil {
+		println("mysqlClient build err =>", err)
 		return nil, MySqlClientBuildFaliure
 	}
 	db.SetMaxOpenConns(poolMaxConnection)

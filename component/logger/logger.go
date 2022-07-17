@@ -10,9 +10,9 @@ import (
 )
 
 var (
-	LoggerBuildFailure = errors.New("logger was built in failure.")
-	Logger             *log.Logger
-	Status             = "Status"
+	LoggerBuildError = errors.New("logger was built in error.")
+	Logger           *log.Logger
+	Status           = "Status"
 )
 
 var (

@@ -3,7 +3,7 @@ package dotweb
 import (
 	"fmt"
 	web "github.com/devfeel/dotweb"
-	"github.com/dometa/bootstrap"
+	"github.com/dometa/container/dotweb/infrastructure"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 )
@@ -13,22 +13,27 @@ var (
 	containerPort            = "application.container.port"
 )
 var (
-	WebContainerBuildFailure = errors.New("dotweb build failure")
+	WebContainerBuildError = errors.New("dotweb build error")
 )
 
-func BuildWebContainer(ctx *bootstrap.Context) (*bootstrap.Context, error) {
+func BuildWebContainer() (*web.DotWeb, error) {
 
 	loggerDirectory := viper.GetString(containerLoggerDirectory)
 	port := viper.GetInt(containerPort)
 
 	container := web.New()
 	container.SetLogPath(loggerDirectory)
+	container.HttpServer.SetEnabledBindUseJsonTag(true)
+
+	infrastructure.InitRoute(container)
+
 	err := container.StartServer(port)
 	if err != nil {
 		fmt.Println("dotweb build failure =>", err)
-		return ctx, WebContainerBuildFailure
+		return nil, WebContainerBuildError
 	}
 
-	ctx.WebContainer = container
-	return ctx, nil
+	fmt.Println("dotweb start => :", port)
+
+	return container, nil
 }

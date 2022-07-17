@@ -6,6 +6,7 @@ import (
 	"github.com/dometa/component/database/mysql"
 	"github.com/dometa/component/logger"
 	"github.com/dometa/component/resources"
+	container "github.com/dometa/container/dotweb"
 	"github.com/dometa/model"
 	"github.com/jmoiron/sqlx"
 	log "github.com/sirupsen/logrus"
@@ -35,6 +36,11 @@ func Start() (*Context, error) {
 	if err != nil {
 		return context, err
 	}
+
+	context, err = buildWebContainer(context)
+	if err != nil {
+		return context, err
+	}
 	return context, nil
 }
 
@@ -51,20 +57,14 @@ func buildLogger(context *Context) (*Context, error) {
 	fmt.Println("build a logger and inject into all the layers.")
 	l, err := logger.BuildLogger()
 	if err != nil {
-		fmt.Println("build logger failure")
-		return context, logger.LoggerBuildFailure
+		fmt.Println("build logger failure =>", err)
+		return context, logger.LoggerBuildError
 	}
 	context.Logger = l
 	context.Logger.
 		WithField("build", "logger").
-		WithField(logger.Status, model.StatusType_SUCCESS).
 		Infoln("build logger success")
 	return context, nil
-}
-
-func buildWebContainer(context *Context) *Context {
-	fmt.Println("build the webContainer")
-	return context
 }
 
 func buildMySqlClient(context *Context) (*Context, error) {
@@ -72,15 +72,30 @@ func buildMySqlClient(context *Context) (*Context, error) {
 	client, err := mysql.BuildMySqlClient()
 	if err != nil {
 		context.Logger.
-			WithField("build", "mysqlClient").
-			WithField(logger.Status, model.StatusType_EXCEPTION).Errorln("build mysql client failure", err)
+			WithField("build", "mysqlClient").Errorln("build mysql client error", err)
 		fmt.Println("build mysql client failure =>", err)
+		return context, err
 	}
 	context.MysqlClient = client
 	context.Logger.
 		WithField("build", "mysqlClient").
 		WithField(logger.Status, model.StatusType_SUCCESS).
 		Infoln("build mysql client success")
+	return context, nil
+}
+
+func buildWebContainer(context *Context) (*Context, error) {
+	fmt.Println("build web container")
+	webContainer, err := container.BuildWebContainer()
+	if err != nil {
+		context.Logger.WithField("build", "webcontainer").Error("build webcontainer error", err)
+		return context, nil
+	}
+	context.WebContainer = webContainer
+	context.Logger.
+		WithField("build", "dotwebContainer").
+		WithField(logger.Status, model.StatusType_SUCCESS).
+		Infoln("build dotweb container success")
 	return context, nil
 }
 

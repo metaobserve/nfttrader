@@ -2,9 +2,9 @@ create table wallet
 (
     id int auto_increment primary key,
     # user's wallet
-    address nvarchar(200),
+    address varchar(200),
     # access token, which is created by login.
-    token nvarchar(200),
+    token varchar(200),
     # login Time
     loginTime datetime,
     # logout Time
@@ -62,6 +62,7 @@ create table nft
     id int auto_increment primary key ,
     name nvarchar(200),
     description nvarchar(400),
+    metadata varchar(2000),
     # nft token
     token varchar(200),
     airdropTokenId varchar(50),

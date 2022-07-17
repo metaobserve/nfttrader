@@ -3,11 +3,12 @@ package dao
 import (
 	"github.com/dometa/bootstrap"
 	"github.com/dometa/model/po"
+	"github.com/spf13/viper"
 )
 
 type nftDao interface {
 	Insert(nft po.NftPO) (bool, error)
-	SelectNft(nfts *[]po.NftPO, airdropTokenId string) error
+	SelectNft(nfts *[]po.NftPO, airdropTokenId string, pageIndex int) error
 }
 
 type nftDaoImpl struct {
@@ -41,14 +42,19 @@ func (dao nftDaoImpl) Insert(nft po.NftPO) (bool, error) {
 	}
 }
 
-func (dao nftDaoImpl) SelectNft(nfts *[]po.NftPO, airdropTokenId string) error {
-	err := dao.context.MysqlClient.Select(nfts, "select * from nft where  status=1 and airdropTokenId= ?", airdropTokenId)
+func (dao nftDaoImpl) SelectNft(nfts *[]po.NftPO, airdropTokenId string, pageIndex int) error {
+	pageSize := viper.GetInt("nft.pageSize")
+	pageNum := pageSize * pageIndex
+	actualPageSize := pageSize + 1
+	err := dao.context.MysqlClient.Select(nfts, "select * from nft where  status=1 and airdropTokenId= ? order by Id asc limits ?,?", airdropTokenId, pageNum, actualPageSize)
 	if err != nil {
 		dao.context.Logger.
 			WithField("selectNft", "error").
 			WithField("airdropTokenId", airdropTokenId).Errorln("get nfts with airdropTokenId", err)
 		return SelectError
 	} else {
+		l := len(*nfts)
+		println("nftlen => ", l)
 		return nil
 	}
 }

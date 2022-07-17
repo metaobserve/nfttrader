@@ -30,3 +30,5 @@ polygon:
   address: "https://polygon.technology"
   token: ""
   secret: ""
+nft:
+  pageSize: 20
