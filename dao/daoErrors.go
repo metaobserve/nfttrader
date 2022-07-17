@@ -3,7 +3,8 @@ package dao
 import "github.com/pkg/errors"
 
 var (
-	FailInsertError = errors.New("insert into table error")
-	SelectError     = errors.New("select table error")
-	NoneInsertError = errors.New("none inserted error")
+	InsertError        = errors.New("insert into table error")
+	SelectError        = errors.New("select table error")
+	NothingInsertError = errors.New("nothing inserted error")
+	NothingSelectError = errors.New("nothing select error")
 )

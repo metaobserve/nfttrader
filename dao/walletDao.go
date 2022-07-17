@@ -21,11 +21,12 @@ func NewWalletDao(context *bootstrap.Context) WalletDao {
 }
 
 func (dao walletDaoImpl) Insert(wallet po.WalletPO) (bool, error) {
-	sqlStr := "insert into wallet(address,token,loginTime,createTime,updateTime)values(?,?,?,?,?)"
+	sqlStr := "insert into wallet(address,token,loginTime,logoutTime,createTime,updateTime)values(?,?,?,?,?,?)"
 	ret, err := dao.context.MysqlClient.Exec(sqlStr,
 		wallet.Address,
 		wallet.Token,
 		wallet.LoginTime,
+		wallet.LogoutTime,
 		wallet.CreateTime,
 		wallet.UpdateTime,
 	)
@@ -33,17 +34,17 @@ func (dao walletDaoImpl) Insert(wallet po.WalletPO) (bool, error) {
 		dao.context.Logger.
 			WithField("insertWallet", "error").
 			WithField("wallet", wallet).Errorln("insert wallet error", err)
-		return false, FailInsertError
+		return false, InsertError
 	}
 	affectRows, err := ret.RowsAffected()
 	if err != nil {
 		dao.context.Logger.WithField("insertWallet", "noAffectedError").WithField("wallet", wallet).Errorln("no affect error")
-		return false, FailInsertError
+		return false, InsertError
 	}
 	if affectRows > 0 {
 		return true, nil
 	} else {
-		return false, NoneInsertError
+		return false, NothingInsertError
 	}
 }
 

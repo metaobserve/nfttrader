@@ -21,25 +21,33 @@ func NewAirportDao(context *bootstrap.Context) airdropDao {
 	}
 }
 
-func (dao airdropDaoImpl) Insert(airport po.AirdropPO) (bool, error) {
-	sqlStr := "insert into airport(name,description,startTime,endTime,stage,createTime,updateTime)values(?,?,?,?,?,?,?)"
-	result, err := dao.context.MysqlClient.Exec(sqlStr, airport.Name, airport.Description, airport.StartTime, airport.EndTime, airport.CreateTime, airport.UpdateTime)
+func (dao airdropDaoImpl) Insert(airdrop po.AirdropPO) (bool, error) {
+	sqlStr := "insert into airdrop(tokenId,name,description,startTime,endTime,stage,createTime,updateTime)values(?,?,?,?,?,?,?,?)"
+	ret, err := dao.context.MysqlClient.Exec(sqlStr, airdrop.TokenId, airdrop.Name, airdrop.Description, airdrop.StartTime, airdrop.EndTime, airdrop.Stage, airdrop.CreateTime, airdrop.UpdateTime)
 	if err != nil {
-		return false, FailInsertError
+		dao.context.Logger.
+			WithField("insertAirdrop", "error").
+			WithField("airdrop", airdrop).Errorln("insert airdrop error", err)
+		return false, InsertError
 	}
-	affectedNum, err := result.RowsAffected()
+	affectRows, err := ret.RowsAffected()
 	if err != nil {
-		return false, FailInsertError
+		dao.context.Logger.WithField("insertAirdrop", "noAffectedError").WithField("airdrop", airdrop).Errorln("no affect error")
+		return false, InsertError
 	}
-	if affectedNum > 0 {
+	if affectRows > 0 {
 		return true, nil
 	} else {
-		return false, NoneInsertError
+		return false, NothingInsertError
 	}
 }
 
 func (dao airdropDaoImpl) GetAirdropByStage(airdrop *po.AirdropPO, stage int) error {
-	err := dao.context.MysqlClient.Get(airdrop, "select * from airport where stage = ?", stage)
+	airdrop.StartTime.Valid = true
+	airdrop.UpdateTime.Valid = true
+	airdrop.CreateTime.Valid = true
+	airdrop.EndTime.Valid = true
+	err := dao.context.MysqlClient.Get(airdrop, "select * from airdrop where stage = ?", stage)
 	if err != nil {
 		dao.context.Logger.WithField("getAirdrop", "error").WithField("stage", stage).Errorln("get airdrop by state error")
 		return SelectError
