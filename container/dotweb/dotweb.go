@@ -16,7 +16,7 @@ var (
 	WebContainerBuildError = errors.New("dotweb build error")
 )
 
-func BuildWebContainer() (*web.DotWeb, error) {
+func StartServer() error {
 
 	loggerDirectory := viper.GetString(containerLoggerDirectory)
 	port := viper.GetInt(containerPort)
@@ -30,10 +30,10 @@ func BuildWebContainer() (*web.DotWeb, error) {
 	err := container.StartServer(port)
 	if err != nil {
 		fmt.Println("dotweb build failure =>", err)
-		return nil, WebContainerBuildError
+		return WebContainerBuildError
 	}
 
 	fmt.Println("dotweb start => :", port)
 
-	return container, nil
+	return nil
 }

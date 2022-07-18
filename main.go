@@ -3,14 +3,24 @@ package main
 import (
 	"fmt"
 	"github.com/dometa/bootstrap"
+	"github.com/dometa/core"
+	"github.com/dometa/global"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
 
-	_, err := bootstrap.Start()
+	core.BuildEnvResources()
+	logger, err := core.BuildLogger()
+
+	global.Logger = logger
+
+	mySqlClient, err := core.BuildMySqlClient()
+	global.MysqlClient = mySqlClient
+
+	err = bootstrap.Start()
 	if err != nil {
-		fmt.Println("dometa start failure =>", nil)
+		fmt.Println("dometa start failure =>", err)
 	} else {
 		fmt.Println("dometa started.")
 	}

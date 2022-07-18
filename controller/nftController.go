@@ -2,14 +2,10 @@ package controller
 
 import (
 	"github.com/devfeel/dotweb"
-	"github.com/dometa/bootstrap"
+	"github.com/dometa/dao"
+	"github.com/dometa/global"
+	"github.com/dometa/model/po"
 )
-
-var workContext *bootstrap.Context
-
-func InitController(ctx *bootstrap.Context) {
-	workContext = ctx
-}
 
 func WalletLogin(ctx dotweb.Context) error {
 	ctx.Response().Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -33,6 +29,12 @@ func MintAppointment(ctx dotweb.Context) error {
 }
 
 func GetAirdrop(ctx dotweb.Context) error {
+
+	global.Logger.Errorln("testError")
+	var airdrop po.AirdropPO
+	airportDao := dao.NewAirportDao(global.MysqlClient)
+	airportDao.GetAirdropByStage(&airdrop, 1)
+
 	ctx.Response().Header().Set("Content-Type", "application/json; charset=utf-8")
 	//fmt.Println(time.Now(), "Index Handler")
 	err := ctx.WriteString("index  => ", ctx.Request().Url())

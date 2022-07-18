@@ -1,8 +1,9 @@
 package dao
 
 import (
-	"github.com/dometa/bootstrap"
+	"github.com/dometa/global"
 	"github.com/dometa/model/po"
+	"github.com/jmoiron/sqlx"
 )
 
 type airdropDao interface {
@@ -12,27 +13,27 @@ type airdropDao interface {
 }
 
 type airdropDaoImpl struct {
-	context *bootstrap.Context
+	sqlClient *sqlx.DB
 }
 
-func NewAirportDao(context *bootstrap.Context) airdropDao {
+func NewAirportDao(sqlClient *sqlx.DB) airdropDao {
 	return &airdropDaoImpl{
-		context: context,
+		sqlClient: sqlClient,
 	}
 }
 
 func (dao airdropDaoImpl) Insert(airdrop po.AirdropPO) (bool, error) {
 	sqlStr := "insert into airdrop(tokenId,name,description,startTime,endTime,stage,createTime,updateTime)values(?,?,?,?,?,?,?,?)"
-	ret, err := dao.context.MysqlClient.Exec(sqlStr, airdrop.TokenId, airdrop.Name, airdrop.Description, airdrop.StartTime, airdrop.EndTime, airdrop.Stage, airdrop.CreateTime, airdrop.UpdateTime)
+	ret, err := dao.sqlClient.Exec(sqlStr, airdrop.TokenId, airdrop.Name, airdrop.Description, airdrop.StartTime, airdrop.EndTime, airdrop.Stage, airdrop.CreateTime, airdrop.UpdateTime)
 	if err != nil {
-		dao.context.Logger.
+		global.Logger.
 			WithField("insertAirdrop", "error").
 			WithField("airdrop", airdrop).Errorln("insert airdrop error", err)
 		return false, InsertError
 	}
 	affectRows, err := ret.RowsAffected()
 	if err != nil {
-		dao.context.Logger.WithField("insertAirdrop", "noAffectedError").WithField("airdrop", airdrop).Errorln("no affect error")
+		global.Logger.WithField("insertAirdrop", "noAffectedError").WithField("airdrop", airdrop).Errorln("no affect error")
 		return false, InsertError
 	}
 	if affectRows > 0 {
@@ -47,9 +48,9 @@ func (dao airdropDaoImpl) GetAirdropByStage(airdrop *po.AirdropPO, stage int) er
 	airdrop.UpdateTime.Valid = true
 	airdrop.CreateTime.Valid = true
 	airdrop.EndTime.Valid = true
-	err := dao.context.MysqlClient.Get(airdrop, "select * from airdrop where stage = ?", stage)
+	err := dao.sqlClient.Get(airdrop, "select * from airdrop where stage = ?", stage)
 	if err != nil {
-		dao.context.Logger.WithField("getAirdrop", "error").WithField("stage", stage).Errorln("get airdrop by state error")
+		global.Logger.WithField("getAirdrop", "error").WithField("stage", stage).Errorln("get airdrop by state error")
 		return SelectError
 	}
 	return nil

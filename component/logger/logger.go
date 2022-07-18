@@ -11,7 +11,6 @@ import (
 
 var (
 	LoggerBuildError = errors.New("logger was built in error.")
-	Logger           *log.Logger
 	Status           = "Status"
 )
 
@@ -39,6 +38,5 @@ func BuildLogger() (*log.Logger, error) {
 		fmt.Println("log build throw err => ", err)
 	}
 	logger.SetOutput(logFileWriter)
-	Logger = logger
 	return logger, err
 }
