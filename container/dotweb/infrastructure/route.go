@@ -6,7 +6,8 @@ import (
 )
 
 func InitRoute(container *dotweb.DotWeb) {
-	container.HttpServer.Router().GET("/nft/show", controller.GetNfts)
+	container.HttpServer.Router().GET("/dometa/banner", controller.GetBanner)
+	container.HttpServer.Router().GET("/dometa/nft", controller.GetNfts)
 	container.HttpServer.Router().GET("/nft/airdrop", controller.GetAirdrop)
 
 	container.HttpServer.Router().POST("/nft/walletLogin", controller.WalletLogin)

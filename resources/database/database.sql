@@ -60,9 +60,13 @@ create table whiteList
 create table nft
 (
     id int auto_increment primary key ,
+    theme nvarchar(200),
     name nvarchar(200),
     description nvarchar(400),
     metadata varchar(2000),
+    price decimal,
+    designerName nvarchar(200),
+    isBanner bool,
     # nft token
     token varchar(200),
     airdropTokenId varchar(50),
