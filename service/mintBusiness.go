@@ -25,16 +25,16 @@ var (
 	nftRandomStartIndex = "nft.randomStartIndex"
 )
 
-func Mint(address string) (string, error) {
+func Mint(token string) (string, error) {
 
-	if address == "" && len(address) < 15 {
-		return "invalid wallet address", Mint_InvalidAddress
+	if token == "" && len(token) < 15 {
+		return "invalid wallet token", Mint_InvalidAddress
 	}
 
 	// 1. whether login before
 	walletDao := dao.NewWalletDao()
 	walletPO := new(po.WalletPO)
-	err := walletDao.Get(walletPO, address)
+	err := walletDao.GetByToken(walletPO, token)
 	if err != nil {
 		global.Logger.WithField("business", "mint").
 			WithField("selectAddress", "error").Errorln("select wallet address error => ", err)
@@ -46,6 +46,7 @@ func Mint(address string) (string, error) {
 		return "wallet address not found", WalletLogin_SelectError
 	}
 
+	address := walletPO.Address
 	// 2.0 check mint bfore ?
 	// whether mint before
 	mintPO := new(po.MintPO)
@@ -55,7 +56,8 @@ func Mint(address string) (string, error) {
 		global.Logger.WithField("business", "mint").Infoln("mint check failure ==>", err)
 		return "mint check filuare", Mint_CheckFailure
 	}
-	if mintPO.Id > 1 {
+	if mintPO.Id > 0 {
+
 		return "had mint before", nil
 	}
 

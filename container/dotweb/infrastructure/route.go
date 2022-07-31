@@ -13,7 +13,7 @@ func InitRoute(container *dotweb.DotWeb) {
 
 	//container.HttpServer.Router().GET("/nft/airdrop", controller.GetAirdrop)
 
-	container.HttpServer.Router().POST("/nft/page", controller.GetNfts)
-	container.HttpServer.Router().POST("/nft/mint", controller.DoMetaMint)
+	container.HttpServer.Router().POST("/nft/page", controller.Nfts)
+	container.HttpServer.Router().POST("/nft/mint", controller.Mint)
 	//container.HttpServer.Router().POST("/nft/mintAppointment", controller.MintAppointment)
 }

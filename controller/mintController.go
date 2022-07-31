@@ -19,13 +19,13 @@ var (
 	mint_Failure      = "mint failure"
 )
 
-func DoMetaMint(ctx dotweb.Context) error {
+func Mint(ctx dotweb.Context) error {
 
 	//1. invalid data
 	response := new(res.MintResponse)
-	mint := new(req.MintRequest)
+	request := new(req.MintRequest)
 
-	address, err := ctx.Request().Cookie(model.Dometa_Cookie)
+	token, err := ctx.Request().Cookie(model.Dometa_Cookie)
 	if err != nil {
 		global.Logger.WithField("controller", "mint").
 			WithField("address", "read from cookie").
@@ -34,17 +34,17 @@ func DoMetaMint(ctx dotweb.Context) error {
 		response.Status = model.StatusType_CUSTOMERROR
 		return mintResponse(response, ctx)
 	}
-	if address == nil || len(address.Value) < 15 {
+	if token == nil || len(token.Value) < 15 {
 		global.Logger.WithField("controller", "mint").
 			Errorln("invalid wallet address")
 		response.Description = mint_InvalidData
 		response.Status = model.StatusType_CUSTOMERROR
 		return mintResponse(response, ctx)
 	}
-	mint.Address = address.Value
+	request.Token = token.Value
 
 	//2. mint
-	ret, err := service.Mint(mint.Address)
+	ret, err := service.Mint(request.Token)
 
 	if err != nil {
 		global.Logger.WithField("controller", "mint").

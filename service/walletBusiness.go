@@ -14,7 +14,7 @@ var (
 	WalletLogin_SaveFailure    = errors.New("save address failure")
 )
 
-func WalletLogin(address string) error {
+func WalletLogin(address string, token string) error {
 
 	if address == "" && len(address) < 15 {
 		return WalletLogin_InvalidAddress
@@ -22,7 +22,7 @@ func WalletLogin(address string) error {
 
 	walletDao := dao.NewWalletDao()
 	walletPO := new(po.WalletPO)
-	err := walletDao.Get(walletPO, address)
+	err := walletDao.GetByAddress(walletPO, address)
 	if err != nil {
 		global.Logger.WithField("business", "walletLogin").
 			WithField("selectAddress", "error").Errorln("select Address error => ", err)
@@ -30,11 +30,13 @@ func WalletLogin(address string) error {
 	}
 
 	if walletPO.Id > 0 {
+		walletDao.UpdateWalltToken(address, token)
 		global.Logger.WithField("business", "walletLogin").Infoln("wallet address had login")
 		return nil
 	}
 
 	walletPO.Address = address
+	walletPO.Token = token
 	walletPO.CreateTime.Valid = true
 	walletPO.LoginTime.Time = time.Now()
 	walletPO.LoginTime.Valid = true

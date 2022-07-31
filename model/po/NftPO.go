@@ -9,8 +9,8 @@ type NftPO struct {
 	Name        string `db:"name"`
 	Description string `db:"description"`
 	// nft token
-	Token          string `db:"token"`
-	AirdropTokenId string `db:"airdropTokenId"`
+	//Token          string `db:"token"`
+	//AirdropTokenId int `db:"airdropTokenId"`
 	// nft status : 0 invalid 1 valid
 	Status        int          `db:"status"`
 	Theme         string       `db:"theme"`

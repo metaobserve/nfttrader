@@ -31,6 +31,7 @@ func WalletLogin(ctx dotweb.Context) error {
 	result := new(res.WalletLoginResponse)
 
 	walleltLogin := new(req.WalletLoginRequest)
+
 	err := ctx.BindJsonBody(walleltLogin)
 	if err != nil {
 		global.Logger.WithField("controller", "walletLogin").
@@ -60,8 +61,8 @@ func WalletLogin(ctx dotweb.Context) error {
 	}
 
 	//2. update address, store cookieToken for mind
-	cookieToken := walleltLogin.Address
-	err = service.WalletLogin(walleltLogin.Address)
+	cookieToken := walleltLogin.Token
+	err = service.WalletLogin(walleltLogin.Address, walleltLogin.Token)
 	if err != nil {
 		global.Logger.WithField("controller", "walletLogin").
 			WithField("loginSave", "failure").
