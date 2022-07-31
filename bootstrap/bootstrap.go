@@ -15,11 +15,12 @@ func Start() error {
 }
 
 func startWebServer() error {
-	fmt.Println("build web container")
+
 	err := container.StartServer()
 	if err != nil {
 		fmt.Println("build webContainer failure =>", err)
 		return nil
 	}
+	fmt.Println("build web container success")
 	return nil
 }

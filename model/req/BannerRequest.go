@@ -1,8 +1,8 @@
-package vo
+package req
 
-// nft show on page. select by pageIndex
-type NftVO struct {
-	Name string `json:name`
+type BannerRequest struct {
+	Name       string `json:name`
+	Descrption string `json:descrption`
 	// nft token
 	Token          string `json:token`
 	AirdropTokenId string `json:airdropTokenId`

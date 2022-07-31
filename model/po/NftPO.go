@@ -12,7 +12,14 @@ type NftPO struct {
 	Token          string `db:"token"`
 	AirdropTokenId string `db:"airdropTokenId"`
 	// nft status : 0 invalid 1 valid
-	Status     int          `db:"status"`
-	CreateTime sql.NullTime `db:"createTime"`
-	UpdateTime sql.NullTime `db:"updateTime"`
+	Status        int          `db:"status"`
+	Theme         string       `db:"theme"`
+	Category      string       `db:"category"`
+	Price         string       `db:"price"`
+	PriceUnit     string       `db:"priceUnit"`
+	NftAddress    string       `db:"nftAddress"`
+	Author        string       `db:"author"`
+	AuthorAddress string       `db:"authorAddress"`
+	CreateTime    sql.NullTime `db:"createTime"`
+	UpdateTime    sql.NullTime `db:"updateTime"`
 }

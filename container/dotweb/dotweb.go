@@ -4,6 +4,7 @@ import (
 	"fmt"
 	web "github.com/devfeel/dotweb"
 	"github.com/dometa/container/dotweb/infrastructure"
+	"github.com/dometa/container/dotweb/internal"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 )
@@ -24,16 +25,19 @@ func StartServer() error {
 	container := web.New()
 	container.SetLogPath(loggerDirectory)
 	container.HttpServer.SetEnabledBindUseJsonTag(true)
+	container.HttpServer.SetEnabledSession(true)
+	container.HttpServer.SetEnabledIgnoreFavicon(true)
 
+	container.HttpServer.SetBinder(internal.NewTypeBinder())
 	infrastructure.InitRoute(container)
-
+	fmt.Println("dometa server start")
 	err := container.StartServer(port)
 	if err != nil {
-		fmt.Println("dotweb build failure =>", err)
+		fmt.Println("dometa server start failure =>", err)
 		return WebContainerBuildError
 	}
 
-	fmt.Println("dotweb start => :", port)
+	fmt.Println("dometa server start success => :", port)
 
 	return nil
 }

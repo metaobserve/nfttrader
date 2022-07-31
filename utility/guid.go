@@ -6,8 +6,10 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"github.com/google/uuid"
 	"io"
 	"os"
+	"strings"
 	"sync/atomic"
 	"time"
 )
@@ -64,4 +66,10 @@ func GetGUID() string {
 // Hex returns a hex representation of the ObjectId.
 func (id ObjectId) Hex() string {
 	return hex.EncodeToString([]byte(id))
+}
+
+func GetUUID() string {
+	uuid := uuid.New()
+	uuidFlat := strings.Replace(uuid.String(), "-", "", -1)
+	return uuidFlat
 }

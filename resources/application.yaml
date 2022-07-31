@@ -32,3 +32,8 @@ polygon:
   secret: ""
 nft:
   pageSize: 20
+  randomStartIndex: 0
+  randomRange: 100
+cache:
+  runtime:
+    expireInMinutes : 10

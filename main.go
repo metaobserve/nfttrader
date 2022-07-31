@@ -12,15 +12,30 @@ func main() {
 
 	core.BuildEnvResources()
 	logger, err := core.BuildLogger()
-
+	if err != nil {
+		fmt.Println("application start, logger init error")
+		return
+	}
 	global.Logger = logger
 
 	mySqlClient, err := core.BuildMySqlClient()
+	if err != nil {
+		fmt.Println("application start, mysqlClient init error")
+		return
+	}
 	global.MysqlClient = mySqlClient
+
+	cache, err := core.BuildRuntimeCache()
+	if err != nil {
+		fmt.Println("application start, runtime Cache init error")
+		return
+	}
+	global.Cache = cache
 
 	err = bootstrap.Start()
 	if err != nil {
 		fmt.Println("dometa start failure =>", err)
+		return
 	} else {
 		fmt.Println("dometa started.")
 	}
@@ -42,10 +57,10 @@ func main() {
 	//airdrop.TokenId = utility.GetGUID()
 	//
 	//airportDao := dao.NewAirportDao(context)
-	//ret, err := airportDao.Insert(airdrop)
+	//res, err := airportDao.Insert(airdrop)
 	//var airdropPO po.AirdropPO
 	//airportDao.GetAirdropByStage(&airdropPO, 1)
-	//fmt.Println(ret)
+	//fmt.Println(res)
 	//airportDao
 
 	//nft
@@ -60,8 +75,8 @@ func main() {
 	//nft.UpdateTime.Time = time.Now()
 	//nft.AirdropTokenId = "token"
 	//nftDao := dao.NewNftDao(context)
-	//ret, err := nftDao.Insert(nft)
-	//fmt.Println(ret)
+	//res, err := nftDao.Insert(nft)
+	//fmt.Println(res)
 	//fmt.Println(err)
 	//
 	//var nfts []po.NftPO
@@ -79,12 +94,12 @@ func main() {
 	//user.UpdateTime.Time = time.Now()
 	//
 	//userListDao := dao.NewUserListDao(context)
-	//ret, err := userListDao.Insert(user)
-	//fmt.Println("ret =>", ret)
+	//res, err := userListDao.Insert(user)
+	//fmt.Println("res =>", res)
 	//fmt.Println("err =>", err)
 	//
-	//ret, err = userListDao.IsUserJoinAirdrop("address", "token")
-	//fmt.Println("ret =>", ret)
+	//res, err = userListDao.IsUserJoinAirdrop("address", "token")
+	//fmt.Println("res =>", res)
 	//fmt.Println("err =>", err)
 
 	//whiteList
@@ -100,12 +115,12 @@ func main() {
 	//whiteList.EndTime.Time = time.Now()
 	//
 	//whiteListDao := dao.NewWhiteListDao(context)
-	//ret, err := whiteListDao.Insert(whiteList)
-	//fmt.Println("ret =>", ret)
+	//res, err := whiteListDao.Insert(whiteList)
+	//fmt.Println("res =>", res)
 	//fmt.Println("err =>", err)
 	//
-	//ret, err = whiteListDao.IsUserInWhiteList("token", "address")
-	//fmt.Println("ret =>", ret)
+	//res, err = whiteListDao.IsUserInWhiteList("token", "address")
+	//fmt.Println("res =>", res)
 	//fmt.Println("err =>", err)
 
 	// wallet

@@ -6,11 +6,14 @@ import (
 )
 
 func InitRoute(container *dotweb.DotWeb) {
-	container.HttpServer.Router().GET("/dometa/banner", controller.GetBanner)
-	container.HttpServer.Router().GET("/dometa/nft", controller.GetNfts)
-	container.HttpServer.Router().GET("/nft/airdrop", controller.GetAirdrop)
+	//container.HttpServer.Router().GET("/banner", controller.GetBanner)
 
-	container.HttpServer.Router().POST("/nft/walletLogin", controller.WalletLogin)
-	container.HttpServer.Router().POST("/nft/mint", controller.Mint)
-	container.HttpServer.Router().POST("/nft/mintAppointment", controller.MintAppointment)
+	container.HttpServer.Router().GET("/wallet/token", controller.WalletToken)
+	container.HttpServer.Router().POST("/wallet/login", controller.WalletLogin)
+
+	//container.HttpServer.Router().GET("/nft/airdrop", controller.GetAirdrop)
+
+	container.HttpServer.Router().POST("/nft/page", controller.GetNfts)
+	container.HttpServer.Router().POST("/nft/mint", controller.DoMetaMint)
+	//container.HttpServer.Router().POST("/nft/mintAppointment", controller.MintAppointment)
 }

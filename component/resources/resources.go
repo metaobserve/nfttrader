@@ -12,6 +12,7 @@ var (
 )
 
 func BuildEnvResources() error {
+
 	path, err := utility.GetCurrentExecutePath()
 	if err != nil {
 		fmt.Println("get execute path failure => ", err)

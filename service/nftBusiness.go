@@ -27,7 +27,7 @@ func NewNftBusiness() nftService {
 }
 
 func (service nftServiceImpl) GetBanner(banners *[]bo.BannerBO) error {
-	airDropDao := dao.NewAirportDao(global.MysqlClient)
+	airDropDao := dao.NewAirportDao()
 	var airDrop po.AirdropPO
 	err := airDropDao.GetAirdropByStage(&airDrop, AIRDROP_STAGE_ACTION)
 	if err != nil {
@@ -46,7 +46,7 @@ func (service nftServiceImpl) GetBanner(banners *[]bo.BannerBO) error {
 			Errorln("get Banner Nft error", err)
 		return GetBannerError
 	}
-	
+
 	return nil
 }
 

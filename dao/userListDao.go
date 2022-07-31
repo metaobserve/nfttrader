@@ -26,14 +26,14 @@ package dao
 //// make appointment with airdropToken
 //func (dao userListDaoImpl) Insert(user po.UserListPO) (bool, error) {
 //	insertUserListSql := "insert into userList(walletAddress,airdropTokenId,joinedWhiteList,createTime,updateTime) values(?,?,?,?,?)"
-//	ret, err := dao.context.MysqlClient.Exec(insertUserListSql, user.WalletAddress, user.AirdropTokenId, user.JoinedWhiteList, user.CreateTime, user.UpdateTime)
+//	res, err := dao.context.MysqlClient.Exec(insertUserListSql, user.WalletAddress, user.AirdropTokenId, user.JoinedWhiteList, user.CreateTime, user.UpdateTime)
 //	if err != nil {
 //		dao.context.Logger.
 //			WithField("insertUserList", "error").
 //			WithField("userList", user).Errorln("insert userList error", err)
 //		return false, InsertError
 //	}
-//	affectRows, err := ret.RowsAffected()
+//	affectRows, err := res.RowsAffected()
 //	if err != nil {
 //		dao.context.Logger.WithField("insertUserList", "noAffectedError").WithField("userList", user).Errorln("no affect error")
 //		return false, InsertError

@@ -11,7 +11,7 @@ func GetAirdrop(ctx dotweb.Context) error {
 
 	global.Logger.Errorln("testError")
 	var airdrop po.AirdropPO
-	airportDao := dao.NewAirportDao(global.MysqlClient)
+	airportDao := dao.NewAirportDao()
 	airportDao.GetAirdropByStage(&airdrop, 1)
 
 	ctx.Response().Header().Set("Content-Type", "application/json; charset=utf-8")

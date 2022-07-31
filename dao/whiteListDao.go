@@ -27,7 +27,7 @@ package dao
 //func (dao whiteListDaoImpl) Insert(whiteList po.WhiteListPO) (bool, error) {
 //
 //	insertUserListSql := "insert into whiteList(name,description,walletAddress,airdropTokenId,startTime,endTime,status,createTime,updateTime) values(?,?,?,?,?,?,?,?,?)"
-//	ret, err := dao.context.MysqlClient.Exec(insertUserListSql,
+//	res, err := dao.context.MysqlClient.Exec(insertUserListSql,
 //		whiteList.Name, whiteList.Description, whiteList.WalletAddress,
 //		whiteList.AirdropTokenId, whiteList.StartTime, whiteList.EndTime, whiteList.Status, whiteList.CreateTime, whiteList.UpdateTime)
 //	if err != nil {
@@ -36,7 +36,7 @@ package dao
 //			WithField("whiteList", whiteList).Errorln("insert whiteList error", err)
 //		return false, InsertError
 //	}
-//	affectRows, err := ret.RowsAffected()
+//	affectRows, err := res.RowsAffected()
 //	if err != nil {
 //		dao.context.Logger.WithField("insertWhiteList", "noAffectedError").WithField("whiteList", whiteList).Errorln("no affect error")
 //		return false, InsertError
