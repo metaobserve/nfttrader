@@ -1,78 +1,90 @@
-create table wallet
+create table account
 (
-    id int auto_increment primary key,
-    # user's wallet
-    address varchar(200),
-    # access token, which is created by login.
-    token varchar(200),
-    # login Time
-    loginTime datetime,
-    # logout Time
-    logoutTime datetime,
-    createTime datetime,
-    updateTime datetime
+    id int null
 );
 
-# user list records who join the airdrop
-create table userList
-(
-    id int auto_increment primary key ,
-    address nvarchar(200),
-    airdropTokenId varchar(50),
-    # may be there is a white list to protect users who made an appointment before.
-    joinedWhiteList bool,
-    createTime datetime,
-    updateTime datetime
-);
-
-# airdrop has three stages.
 create table airdrop
 (
-    id int auto_increment primary key ,
-    tokenId varchar(50),
-    name nvarchar(200),
-    description nvarchar(400),
-    startTime datetime,
-    endTime datetime,
-    # airDrop stage: 0 ready; 1 action; 2 cut
-    stage integer,
-    createTime datetime,
-    updateTime datetime
+    id          int auto_increment
+        primary key,
+    name        varchar(200) charset utf8mb3 null,
+    description varchar(400) charset utf8mb3 null,
+    startTime   datetime                     null,
+    endTime     datetime                     null,
+    stage       int                          null,
+    createTime  datetime                     null,
+    updateTime  datetime                     null,
+    tokenId     varchar(50)                  null
 );
 
-# add user in whiteList before airdrop start
-create table whiteList
+create table mint
 (
-    id int auto_increment primary key ,
-    name nvarchar(50),
-    description nvarchar(400),
-    startTime datetime,
-    endTime datetime,
-    airdropTokenId varchar(50),
-    # status : 0 invalid , 1 valid
-    status int,
-    walletAddress varchar(50),
-    createTime datetime,
-    updateTime datetime
+    id         int auto_increment
+        primary key,
+    address    varchar(200) charset utf8mb3 null,
+    nftId      int                          null,
+    airdropId  int                          null,
+    createTime datetime                     null,
+    updateTime datetime                     null
 );
 
-# ntf
 create table nft
 (
-    id int auto_increment primary key ,
-    theme nvarchar(200),
-    name nvarchar(200),
-    description nvarchar(400),
-    metadata varchar(2000),
-    price decimal,
-    designerName nvarchar(200),
-    isBanner bool,
-    # nft token
-    token varchar(200),
-    airdropTokenId varchar(50),
-    # nft status : 0 invalid 1 valid
-    status int,
-    createTime datetime,
-    updateTime datetime
+    id             int auto_increment
+        primary key,
+    name           varchar(200) charset utf8mb3  null,
+    description    varchar(400) charset utf8mb3  null,
+    token          varchar(200)                  null,
+    airdropTokenId int                           null,
+    status         int                           null,
+    metadata       varchar(2000)                 null,
+    theme          varchar(200)                  null,
+    category       varchar(40)                   null,
+    price          varchar(50)                   null,
+    priceUnit      varchar(50)                   null,
+    nftAddress     varchar(2000) charset utf8mb3 null,
+    isBanner       tinyint(1)                    null,
+    author         varchar(100)                  null,
+    authorAddress  varchar(2000)                 null,
+    createTime     datetime                      null,
+    updateTime     datetime                      null
+);
+
+create table userList
+(
+    id              int auto_increment
+        primary key,
+    walletAddress   varchar(200) charset utf8mb3 null,
+    airdropTokenId  varchar(50)                  null,
+    joinedWhiteList tinyint(1)                   null,
+    createTime      datetime                     null,
+    updateTime      datetime                     null
+);
+
+create table wallet
+(
+    id         int auto_increment
+        primary key,
+    address    varchar(200) charset utf8mb3 null,
+    token      varchar(200) charset utf8mb3 null,
+    loginTime  datetime                     null,
+    logoutTime datetime                     null,
+    createTime datetime                     null,
+    updateTime datetime                     null
+);
+
+create table whiteList
+(
+    id             int auto_increment
+        primary key,
+    name           varchar(50) charset utf8mb3  null,
+    description    varchar(400) charset utf8mb3 null,
+    startTime      datetime                     null,
+    endTime        datetime                     null,
+    airdropTokenId varchar(50)                  null,
+    status         int                          null,
+    walletAddress  varchar(50)                  null,
+    createTime     datetime                     null,
+    updateTime     datetime                     null
 );
 
