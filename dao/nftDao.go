@@ -52,8 +52,9 @@ func (dao nftDaoImpl) SelectNft(nfts *[]po.NftPO, category []string, pageIndex i
 	pageNum := pageSize * pageIndex
 	actualPageSize := pageSize + 1
 
-	allQuery := "select id,name,description,status,theme,category,price,priceUnit,nftAddress,author,authorAddress,createTime,updateTime from nft where  status=1 order by Id asc limit ?,?"
-	categoryQuery := "select  id,name,description,status,theme,category,price,priceUnit,nftAddress,author,authorAddress,createTime,updateTime  from nft where  status=1 and category in (?) order by Id asc limit ?,?"
+	allQuery := "select id,name,description,status,theme,category,price,priceUnit,nftAddress,author,authorAddress,createTime,updateTime from nft where  status=1 order by Weight desc limit ?,?"
+	categoryQuery := "select  id,name,description,status,theme,category,price,priceUnit,nftAddress,author,authorAddress,createTime,updateTime from nft where id in (select nftId from nftCategoryMap where name in (?)) and status=1  order by Weight desc  limit ?,?"
+	//categoryQuery := "select  id,name,description,status,theme,category,price,priceUnit,nftAddress,author,authorAddress,createTime,updateTime  from nft where  status=1 and category in (?) order by Weight desc limit ?,?"
 
 	var err error
 	if len(category) > 0 {
